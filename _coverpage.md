@@ -1,4 +1,4 @@
-![logo](_media/icon.svg)
+![logo](img/icon.svg)
 
 # 我的文档网站
 ## 个人文档网站
