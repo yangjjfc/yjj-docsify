@@ -54,3 +54,4 @@ computed: {
 * 节流:高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率 (throttle)
 * 防抖:触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间 (debounce)
 [文档概念](https://yuchengkai.cn/docs/frontend/#%E9%98%B2%E6%8A%96)
+* 如果我们想获得一个变量的正确类型，可以通过 Object.prototype.toString.call(xx)。这样我们就可以获得类似 [object Type] 的字符串。 
