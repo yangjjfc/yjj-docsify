@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
     }
 });
 ```
-
+>这部分是全局路由拦截,跳转页面之前做的一些事,获取动态裁单
 
 
 ## element-ui使用技巧
