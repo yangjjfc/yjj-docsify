@@ -330,19 +330,159 @@ router.beforeEach((to, from, next) => {
 > 具体查看 (./mock/permission.json)
 
 
-# 性能优化  
+## store中的处理
+<details>
+<summary>filterAsyncRouter</summary>
 
+```js
+import { constantRouterMap } from '@/router/router';
+import BASE from '@/utils/constant/index.js';
+/**
+ * 递归过滤异步路由表，返回符合用户角色权限的路由表
+ * @param routers
+ * @param leval 递归层级
+ */
+const filterAsyncRouter = (routers, leval = 1) => {
+    let asyncRouterMap = routers.map(item => {
+        let permissionUrl = item.permissionUrl.split('?'); //处理组件地址
+        item.path = item.path.split('?')[0] || 'app/404';  //href地址
+        item.name = BASE.pageNames[permissionUrl[0]] || (permissionUrl[0] + item.no); //处理name,保证不唯一
+        item.meta = {
+            name: item.label,
+            componentUrl: permissionUrl[0],
+            no: item.no,
+            pageTips: item.pageTips || '',
+            query: permissionUrl[1],
+            leval: leval, //表示级别,二级模块显示会有所区别
+            cache: BASE.cacheUrls.includes(item.permissionUrl) //是否要缓存,于前端config配置做对比
+        };
+        BASE.pageNames[permissionUrl[0]] = false;
+        (item.children && item.children.length) && (item.children = filterAsyncRouter(item.children, leval + 1));
+        return item;
+    });
+    return asyncRouterMap;
+};
 
+const permission = {
+    state: {
+        roles: null, // 用户权限
+        routers: null // 路由
+    },
+    mutations: {
+        // 设置路由
+        SET_ROUTERS (state, routers) {
+            state.routers = constantRouterMap.concat(routers); // 合并本地路由,生成全部路由
+            sessionStorage.setItem('route', JSON.stringify(state.routers));
+        }
+    },
+    actions: {
+        // 生成路由生成路由
+        async generateRouters ({ commit, state }, menus) {
+            return new Promise(resolve => {
+                let accessedRouters = filterAsyncRouter(menus);
+                commit('SET_ROUTERS', accessedRouters);
+                resolve(accessedRouters);
+            });
+        }
+    }
+};
 
-# 权限开发流程
+export default permission;
 
-前端设计好路由规则,json-tree(里面包含权限)。然后后端根据这个数据规则设计，添加菜单，按钮，tab页的数据。前端登入后，会返回这个权限列表，里面包含按钮，菜单和tab页，还有加载的组件地址。拿到这些数据后，前端先处理路由，将返回的菜单组合成路由，合并本地的一些静态路由。通过addRouter动态挂载到router，这个菜单就能根据返回动态显示了。由于是路由，设计到组件挂载的问题，所有访问的组件地址也是后端去配置的。在动态填在路由时，会出现全部组件一次性加载的问题，所以现将路由都指向同一个组件dashbord，然后通过这个组件在二次指向要访问的组件。组件的按钮权限，都全部挂载到vue.prototype上,然后全判断是否存在权限,才过滤按钮。
+```
 
+</details>
 
+## 动态显示  
 
-# js方面
+<details>
+<summary>Dashboard</summary>
 
-* 节流:高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率 (throttle)
-* 防抖:触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间 (debounce)
-[文档概念](https://yuchengkai.cn/docs/frontend/#%E9%98%B2%E6%8A%96)
-* 如果我们想获得一个变量的正确类型，可以通过 Object.prototype.toString.call(xx)。这样我们就可以获得类似 [object Type] 的字符串。 
+```js
+<template>
+    <section class="app-main">
+        <keep-alive :include="cachedViews" :max="10">
+            <components :is="componentName" ></components>
+        </keep-alive>
+    </section>
+</template>
+<script>
+import Error from '@/components/error/Error.vue';
+import Nav from '@/components/navPage/index';
+import { mapGetters } from 'vuex';
+import Vue from 'vue';
+const _import = (file) => () => import(/* webpackChunkName: `[request][index]` */ `@/pages${file}/index.vue`);
+
+let reverseComponentName = (str) => str.replace(/(\/|\.)/g, '');
+export default {
+    data () {
+        return {
+            componentName: '',
+            permissions: null
+        };
+    },
+    computed: {
+        ...mapGetters(['buttons']),
+        cachedViews () {
+            return this.$store.state.app.cachedViews; //生成的缓存表
+        }
+    },
+    watch: {
+        $route () { //检测url变化
+            this.initPermission();
+        }
+    },
+    methods: {
+        _getBtnAuth (no, permissions) {
+            this.buttons && this.buttons.forEach(item => {
+                if (item.parentObjNo === no) {
+                    permissions[item.permissionCode] = item.permissionName;
+                }
+            });
+        },
+        // 初始化按钮权限
+        async initPermission () {
+            let no = this.$route.meta.no || this.$route.query.$no,
+                permissions = {},
+                path = this.$route.meta.componentUrl;
+            this._getBtnAuth(no, permissions);
+            Vue.prototype.auth = permissions;
+            this.$store.commit('setAuth', permissions);
+            // 模块点击，直接用navPage组件 二级模块,直接显示列表
+            if (this.$route.meta.leval === 2) {
+                this.componentName = Nav;
+                return;
+            }
+            path = /^\//.test(path) ? path : ('/' + path);
+            // path = /index/.test(path) ? path : path + '/index';
+            let name = reverseComponentName(this.$route.name);
+            let async = _import(path);
+            async().then(com => {
+                Vue.component(name, com.default); //注册组件
+                this.componentName = name; //显示
+            }, errors => {
+                this.componentName = Error;
+                this.$message.error('模块地址加载失败,地址：' + path + '，具体错误：' + errors);
+                console.error(errors);
+            });
+        }
+    },
+    created () {
+        this.initPermission();
+    },
+    components: {
+        Error
+    }
+
+};
+
+</script>
+
+<style lang="scss">
+    .app-main {
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+</style>
+```
+</details>
