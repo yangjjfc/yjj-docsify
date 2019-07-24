@@ -15,6 +15,9 @@
 
 ## 代码设计
 1.利用vue-router中的beforeEach实现权限列表加载
+<details>
+<summary>vue-router</summary>
+
 ```js
 // register global progress.
 const whiteList=['/login', '/register', '/perfectRegister', '/basic/enterprise']
@@ -58,11 +61,13 @@ router.beforeEach((to, from, next) => {
     }
 });
 ```
+</details>
+
 >这部分是全局路由拦截,跳转页面之前做的一些事,获取动态裁单
 
 ## 权限返回数据类型
 <details>
-<summary>权限数据</summary>
+<summary>返回的权限数据</summary>
 
 ```js
 {
@@ -72,7 +77,7 @@ router.beforeEach((to, from, next) => {
 		"menuList":[
 			{
 				"parentNo":".0.",
-				"permissionType":"APP",
+				"permissionType":"APP", 
 				"no":"0000096",
 				"permissionUrl":"/scm/",
 				"appCode":"SCM-C",
@@ -331,10 +336,23 @@ router.beforeEach((to, from, next) => {
 
 > 具体查看 (./mock/permission.json)
 
+> 字段解释
+* "permissionType":"BUTTON", //类型 enmu:['APP','MENU','MODEL','BUTTON','TAB']
+* "permissionUrl":"/", //组件地址,component
+* "basicPermissionNo":".0.000127.000001.000129.000129.000002.", //唯一性no
+* "apiCodes":"ddc.openlink.connectorApply.getKf,ddc.openlink.connectorApply.updateKf", //接口权限
+* "parentBasicPermissionNo":".0.000127.000001.000129.", //parentNo对照关系
+* "parentObjNo":".0.002312.000001.000002.", 
+* "sortNum":1, 
+* "permissionNo":".0.000129.000002.", 
+* "permissionCode":"btn_ddc_openlink_connectorapply_edit",  权限码
+* "pageTips":"", //提示消息,菜单时可配
+* "releaseNo":"0000102",
+* "permissionName":"编辑" //名称
 
 ## store中的处理
 <details>
-<summary>filterAsyncRouter</summary>
+<summary>filterAsyncRouter过滤生成对应的路由表</summary>
 
 ```js
 import { constantRouterMap } from '@/router/router';
@@ -398,7 +416,7 @@ export default permission;
 ## 动态显示  
 
 <details>
-<summary>Dashboard</summary>
+<summary>Dashboard中具体使用</summary>
 
 ```js
 <template>
