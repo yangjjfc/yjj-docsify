@@ -1,4 +1,5 @@
 # 目录结构
+```
 ├── babel.config.js
 ├── bin
 ├── config.js
@@ -175,4 +176,4 @@
 │           └── numberOnly
 ├── vue.config.js
 └── yarn.lock
-
+```
