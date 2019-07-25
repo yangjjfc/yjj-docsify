@@ -1,26 +1,32 @@
-# 权限篇
+## 权限说明
 
 > 后台系统，需求是菜单权限，按钮权限需要动态化，且可以在平台端实现可配置化，包括菜单名称，菜单的层级，菜单图标，挂载的模块，都可以随意配置，动态显示。
 
 >我们的菜单分为四级，一级菜单表示应用，如（供应链，SPD，）是一些大的应用，scs相当于多个系统翻集合，一个容器，类似于微信，可挂载N个小程序，其他以下就是显示的左边菜单。二级算是大模块（采购，发货，企业入驻，证照管理等），三级是模块下面的一个分类，四级是真正对应的某个模块；
 
-* 如下图显示（假图，哈哈哈~）
-![图片alt](../img/1.gif)
-
-![图片alt](../img/2.gif)
-
 
 
 ## 效果展示
 
+* 如下图显示
+![图片alt](../img/1.gif)
+
+![图片alt](../img/2.gif)
+
+![二级菜单点击](../img/3.png)
+
 ## 代码设计
-1.利用vue-router中的beforeEach实现权限列表加载
+
+* 利用vue-router中的beforeEach(全局路由拦截,router变化后就会触发这个函数)实现权限列表加载;
+* 其中里面设置了权限白名单在`utils/constant/index.js`在这个文件夹下,比如`login,register`,这些页面,不需要权限校验,就直接跳转进入相关页面;
+* 这个框架设计只是在app.vue里面做了`router-view`的引入,用于主路由的载入,其他children部分都是通过动态组件component实现的,通过监控$router的变化,获取相关信息,然后加载组件
+
 <details>
-<summary>vue-router</summary>
+<summary>vue-router代码</summary>
 
 ```js
 // register global progress.
-const whiteList=['/login', '/register', '/perfectRegister', '/basic/enterprise']
+const whiteList=['/login', '/register', '/perfectRegister', '/basic/enterprise'] //权限白名单
 router.beforeEach((to, from, next) => {
     if ( whiteList.includes(to.path) || /^\/static/g.test(to.path)) { //如果是白名单中的就可以直接跳转进该页面
         next();
@@ -63,9 +69,25 @@ router.beforeEach((to, from, next) => {
 ```
 </details>
 
->这部分是全局路由拦截,跳转页面之前做的一些事,获取动态裁单
 
 ## 权限返回数据类型
+
+> 具体查看 (./mock/permission.json)
+返回分`menuList`和`permissionList`,menuList是路由表,permissionList是权限表(按钮部分)
+> 字段解释
+* "permissionType":"BUTTON", //类型 enmu:['APP','MENU','MODEL','BUTTON','TAB']
+* "permissionUrl":"/", //组件地址,component
+* "basicPermissionNo":".0.000127.000001.000129.000129.000002.", //唯一性no
+* "apiCodes":"ddc.openlink.connectorApply.getKf,ddc.openlink.connectorApply.updateKf", //接口权限
+* "parentBasicPermissionNo":".0.000127.000001.000129.", //parentNo对照关系
+* "parentObjNo":".0.002312.000001.000002.", 
+* "sortNum":1, 
+* "permissionNo":".0.000129.000002.", 
+* "permissionCode":"btn_ddc_openlink_connectorapply_edit",  权限码
+* "pageTips":"", //提示消息,菜单时可配
+* "releaseNo":"0000102",
+* "permissionName":"编辑" //名称
+
 <details>
 <summary>返回的权限数据</summary>
 
@@ -334,23 +356,14 @@ router.beforeEach((to, from, next) => {
 
 </details>
 
-> 具体查看 (./mock/permission.json)
 
-> 字段解释
-* "permissionType":"BUTTON", //类型 enmu:['APP','MENU','MODEL','BUTTON','TAB']
-* "permissionUrl":"/", //组件地址,component
-* "basicPermissionNo":".0.000127.000001.000129.000129.000002.", //唯一性no
-* "apiCodes":"ddc.openlink.connectorApply.getKf,ddc.openlink.connectorApply.updateKf", //接口权限
-* "parentBasicPermissionNo":".0.000127.000001.000129.", //parentNo对照关系
-* "parentObjNo":".0.002312.000001.000002.", 
-* "sortNum":1, 
-* "permissionNo":".0.000129.000002.", 
-* "permissionCode":"btn_ddc_openlink_connectorapply_edit",  权限码
-* "pageTips":"", //提示消息,菜单时可配
-* "releaseNo":"0000102",
-* "permissionName":"编辑" //名称
 
 ## store中的处理
+> 获取到权限列表之后,就会去触发store中的`generateRouters`action函数
+* `filterAsyncRouter`该函数就是去组装vue-router需要的lits数据
+* 生成数据后,就触发commit,合并本地路由与线上返回的路由,然后存入store中
+
+
 <details>
 <summary>filterAsyncRouter过滤生成对应的路由表</summary>
 
@@ -365,18 +378,22 @@ import BASE from '@/utils/constant/index.js';
 const filterAsyncRouter = (routers, leval = 1) => {
     let asyncRouterMap = routers.map(item => {
         let permissionUrl = item.permissionUrl.split('?'); //处理组件地址
-        item.path = item.path.split('?')[0] || 'app/404';  //href地址
-        item.name = BASE.pageNames[permissionUrl[0]] || (permissionUrl[0] + item.no); //处理name,保证不唯一
+        item.path = item.path.split('?')[0] || 'app/404';  //href地址,没有地址,就绑定404页面
+		//BASE.pageNames[permissionUrl[0]] 作用在于可以本地alias重命名相关name名称,方便跳转使用
+		//permissionUrl[0] + item.no 处理name,保证不唯一
+        item.name = BASE.pageNames[permissionUrl[0]] || (permissionUrl[0] + item.no);
+		//meta 是vue-router的元信息,可以存储很多内容
         item.meta = {
-            name: item.label,
-            componentUrl: permissionUrl[0],
-            no: item.no,
-            pageTips: item.pageTips || '',
-            query: permissionUrl[1],
+            name: item.label,  //中文名称
+            componentUrl: permissionUrl[0], //组件地址
+            no: item.no,  //该编号是获取权限使用的
+            pageTips: item.pageTips || '', //这页面提示信息,可后台配置,动态化
+            query: permissionUrl[1], //查询信息
             leval: leval, //表示级别,二级模块显示会有所区别
             cache: BASE.cacheUrls.includes(item.permissionUrl) //是否要缓存,于前端config配置做对比
         };
         BASE.pageNames[permissionUrl[0]] = false;
+		//递归
         (item.children && item.children.length) && (item.children = filterAsyncRouter(item.children, leval + 1));
         return item;
     });
@@ -415,8 +432,10 @@ export default permission;
 
 ## 动态显示  
 
+> 该页面是同过监控$route,来获取相关的meta元信息,得到模块的相关数据
+* watch 监控router的变化 触发initPermission函数,操作一系列事
 <details>
-<summary>Dashboard中具体使用,该页面是同过监控$route,来获取相关的meta元信息,得到模块的相关数据,然后来找到对应的模块文件和权限之类的。当回去模块加载之后会去通过Vue.component去注册组件，然后利用components组件去显示</summary>
+<summary>Dashboard</summary>
 
 ```js
 <template>
@@ -462,24 +481,23 @@ export default {
         },
         // 初始化按钮权限
         async initPermission () {
-            let no = this.$route.meta.no || this.$route.query.$no,
+            let no = this.$route.meta.no || this.$route.query.$no, //获取编号,过滤权限
                 permissions = {},
-                path = this.$route.meta.componentUrl;
-            this._getBtnAuth(no, permissions);
+                path = this.$route.meta.componentUrl; //组件地址
+            this._getBtnAuth(no, permissions); //获取权限按钮
             Vue.prototype.auth = permissions;
             this.$store.commit('setAuth', permissions);
             // 模块点击，直接用navPage组件 二级模块,直接显示列表
             if (this.$route.meta.leval === 2) {
-                this.componentName = Nav;
+                this.componentName = Nav; //跳转到导航页
                 return;
             }
             path = /^\//.test(path) ? path : ('/' + path);
-            // path = /index/.test(path) ? path : path + '/index';
-            let name = reverseComponentName(this.$route.name);
-            let async = _import(path);
+            let name = reverseComponentName(this.$route.name);//去除`.`和'|',不然会出现奇怪的异常
+            let async = _import(path); //动态import,开发环境需要babel插件 dynamic-import-node
             async().then(com => {
                 Vue.component(name, com.default); //注册组件
-                this.componentName = name; //显示
+                this.componentName = name; //显示component使用
             }, errors => {
                 this.componentName = Error;
                 this.$message.error('模块地址加载失败,地址：' + path + '，具体错误：' + errors);
