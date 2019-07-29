@@ -10,3 +10,7 @@
 3. 写了一些内部chrome插件， 打通内部杂七杂八的平台连通性，比如一键生成日报，周报，项目进度
 4. 还有一些监控，报警发邮件， 谁的页面出错自己去check
 5. pptr自动测试等等
+
+[husky](https://zhuanlan.zhihu.com/p/35913229) 提交代码前做一些eslint校验
+[lint-staged](https://segmentfault.com/a/1190000009546913) //每次提交只检查本次提交所修改的文件
+[Commitlint](https://segmentfault.com/a/1190000017790694)
