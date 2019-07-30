@@ -6,6 +6,9 @@
  * 添加相关依赖 yarn add husky lint-staged @commitlint/config-conventional @commitlint/cli -D
  * 添加配置文件`commitlint.config.js`到更目录中
  * `package`中添加相关规则
+ * [husky](https://zhuanlan.zhihu.com/p/35913229) 
+ * [lint-staged](https://segmentfault.com/a/1190000009546913) 
+ * [Commitlint](https://segmentfault.com/a/1190000017790694)
 
 <details>
 <summary>commitlint.config.js代码</summary>
@@ -60,6 +63,22 @@ module.exports = {
 git commit -m "upd：新增发货功能" //:后面有个空格
 ```
 
+
+
+[阿里大佬浅谈大型项目前端架构设计]( https://juejin.im/post/5cea1f705188250640005472)
+
+
+
+
+
+
+
+
+
+
+
+
+
  ##TODO
 1. 写了个通用脚手架，避免项目模版搭建
 2. 写了不少脚本，帮助内部童靴校验， 加速运维相关的操作
@@ -67,9 +86,6 @@ git commit -m "upd：新增发货功能" //:后面有个空格
 4. 还有一些监控，报警发邮件， 谁的页面出错自己去check
 5. pptr自动测试等等
 
-[husky](https://zhuanlan.zhihu.com/p/35913229) 提交代码前做一些eslint校验
-[lint-staged](https://segmentfault.com/a/1190000009546913) //每次提交只检查本次提交所修改的文件
-[Commitlint](https://segmentfault.com/a/1190000017790694)
 
 
 
