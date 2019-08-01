@@ -101,7 +101,8 @@ vue方向就uni-app  react方向就taro 应该是主流了
 ```
 #!/usr/bin/env sh
 set -e
-
+echo -n "enter your project name:" ---：-n用于允许用户在字符串后面立即输入数据，而不是在下一行输入。
+read name
 vue create hello-world
 
 node config.js
