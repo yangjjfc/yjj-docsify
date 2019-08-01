@@ -96,3 +96,38 @@ git commit -m "upd：新增发货功能" //:后面有个空格
 vue方向就uni-app  react方向就taro 应该是主流了
 
 [前端单页应用微服务化解决方案2](https://juejin.im/post/5ba057695188255c953821c6)
+
+
+```
+#!/usr/bin/env sh
+set -e
+
+vue create hello-world
+
+node config.js
+
+echo 'No conflicts.' >&2;
+
+var path = require('path');
+var fs = require('fs');
+path.resolve(__dirname, '../name')
+
+
+function fileExists (filePath) {
+    try {
+      return fs.statSync(filePath).isFile();
+    } catch (err) {
+      return false;
+    }
+}
+var filePath = path.resolve(basepath, theme, 'src', fileName);
+if (!fileExists(filePath)) {
+    fs.writeFileSync(filePath, '', 'utf8');
+    console.log(theme, ' 创建遗漏的 ', fileName, ' 文件');
+}
+
+执行.sh脚本,创建vue项目,保证官方最新
+执行node脚本
+进入项目,获取相关文件,利用模板,将相关页面创建或覆盖原来配置
+获取依赖目录,执行yarn安装
+```
