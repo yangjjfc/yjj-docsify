@@ -92,3 +92,7 @@ git commit -m "upd：新增发货功能" //:后面有个空格
 
 
 
+[前端全埋点进化之路](https://www.slidestalk.com/u3502/Sina_Moblie_APP)
+vue方向就uni-app  react方向就taro 应该是主流了
+
+[前端单页应用微服务化解决方案2](https://juejin.im/post/5ba057695188255c953821c6)
