@@ -1,3 +1,2 @@
-* [权限篇](dian/doc/permission)
-* [状态管理](dian/doc/store)
-* [指南](guide)
+* [代码规范](project/doc/standard)
+* [脚手架](project/doc/cli)

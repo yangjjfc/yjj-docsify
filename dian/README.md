@@ -1,4 +1,4 @@
-# 目录结构
+# scs目录结构
 ```
 ├── babel.config.js
 ├── bin
