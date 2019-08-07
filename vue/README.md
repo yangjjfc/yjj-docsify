@@ -56,3 +56,8 @@ computed: {
 [文档概念](https://yuchengkai.cn/docs/frontend/#%E9%98%B2%E6%8A%96)
 * 如果我们想获得一个变量的正确类型，可以通过 Object.prototype.toString.call(xx)。这样我们就可以获得类似 [object Type] 的字符串。 
 * [浅谈Object.prototype.toString.call()方法](https://www.jianshu.com/p/585926ae62cc)
+
+
+
+
+[react-native](https://github.com/attentiveness/reading)
