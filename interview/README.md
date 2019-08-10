@@ -26,7 +26,23 @@
 4. json:type:[index,operate],solt,filed会以v-html的形式去渲染,hide是否显示这行v-if
 
 
+## 性能优化
+1. 使用图片整合技术,减少http请求
+2. 使用iconfont,svg代替小图标,在打包时,小图片开启base64位压缩
+3. 打包时,利用webpack插件,打包成gzip,然后ngnix配置也得开启gzip,组件模块化打包。import懒加载相关组件。
+4. 使用cnd加载js的插件,减少三方依赖包的大小。开发时可利用webpack中externals配置,import相关插件。
+5. 使用预加载技术，当空闲时间，去加载下个页面需要用到的组件，`<link rel="prefetch">`
+6. 延迟加载，一些展示页，当滚动条滚动到相关位置时，才去加载相关图片
+7. 添加 Expires 或 Cache-Control 响应头,强制缓存策略。
+8. 减少 DNS 查询,查询把资源分布到 2 个域名上（最多不超过 4 个）
+9. 减少dom的操作 `document.getElementsByTagName('*').length`; 可以计算出标签的数量
+* [前端性能优化](https://csspod.com/frontend-performance-best-practices/)
 
 
 
- 
+
+ ## http
+ http2 优点
+ * 多路复用，降低多个请求的开销
+ * 客户端与服务端只需要建立一个TCP链接，他能保持持久化，以便复用
+
