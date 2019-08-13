@@ -1,3 +1,10 @@
+<!--
+ * @Author: yangjj
+ * @Date: 2019-08-13 09:01:16
+ * @LastEditors: yangjj
+ * @LastEditTime: 2019-08-13 19:16:09
+ * @Description: file content
+ -->
 ## postcss
 
 - postcss 是用来处理 css 的一个工具，在它基础上还有这种插件可以配合他一起使用
@@ -66,4 +73,36 @@ module.exports = {
     }
   }
 };
+```
+
+## webpack-node-externals
+* 
+```
+var nodeExternals = require('webpack-node-externals');
+...
+module.exports = {
+    ...
+    target: 'node', // in order to ignore built-in modules like path, fs, etc.
+    externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
+    ...
+};
+```
+* [webpack-node-externals](https://www.npmjs.com/package/webpack-node-externals)
+
+## Tree-Shaking
+* webpack4+babel7才能过滤node包中的tree-sharking功能;
+* [你的Tree-Shaking并没什么卵用](https://juejin.im/post/5a5652d8f265da3e497ff3de)
+* [Webpack 4 教程 - 7. 通过“tree shaking”减少打包的尺寸](https://segmentfault.com/a/1190000016767989)
+
+## output配置
+```
+output: {
+    path: path.resolve(process.cwd(), './lib'),
+    publicPath: '/dist/',
+    filename: 'ycloud-ui.common.js',
+    chunkFilename: '[id].js',
+    // libraryExport: 'default', // var MyDefaultModule = _entry_return_.default
+    library: 'YCLOUD', // 注入全局变量
+    libraryTarget: 'commonjs2'// 入口起点的返回值将分配给 module.exports 对象
+  }
 ```

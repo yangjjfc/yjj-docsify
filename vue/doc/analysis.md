@@ -2,7 +2,7 @@
  * @Author: yangjj
  * @Date: 2019-08-13 09:02:12
  * @LastEditors: yangjj
- * @LastEditTime: 2019-08-13 13:48:17
+ * @LastEditTime: 2019-08-13 13:51:52
  * @Description: file content
  -->
 ## 事件机制
@@ -16,7 +16,7 @@
 * 主线程不断重复上面的步骤
 
 * macroTask: `setTimeout、MessageChannel、postMessage、setImmediate`
-* microTask: `MutationObsever、 Promise.then、process.nextTick`
+* microTask: `MutationObsever、 Promise.then、process.nextTick` 
 * [Javascript事件循环机制以及渲染引擎何时渲染UI](https://segmentfault.com/a/1190000013212944)
 
 
