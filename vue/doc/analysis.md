@@ -9,7 +9,7 @@
 * js是一个单线程执行,它是基于事件循环的
 * 其中事件分为2部分,宏任务(`macroTask`)和微任务(`microTask`)
 * 所有的同步任务都在主线程上执行,形成一个执行栈
-* 主线程之外,还有一个任务队列,只要有异步任务有了运行结果名酒在任务队列中放置一个事件
+* 主线程之外,还有一个任务队列,只要有异步任务有了运行结果就会在任务队列中放置一个事件
 * 一旦执行栈所有的同步任务完成,系统就会读取任务队列,看看有哪些事件,哪些对应的异步任务,于是结束等待状态,进入执行栈,开始执行
 * 期间又产生微任务,就会放入执行栈末尾,立即等待执行,产生宏任务的话,下一轮事件循环执行(猜的~),
 * 当任务全部执行完后,会进行UI渲染
@@ -34,4 +34,31 @@
 * [[vue源码][nextTick]原理以及源码解析](https://juejin.im/post/5d519abce51d453b753a1a9d?utm_source=gold_browser_extension)
 * [Vue 的 NextTick](https://510team.github.io/vue/nextTick.html#%E5%88%9D%E7%9C%8B-event-loop)
 
+## 响应式原理
+* 双向绑定原理是利用数据劫持,结合发布者-订阅者模式的方式,通过`Object.defineProperty`来劫持各个属性setter、getter,在数据发生变动时发布消息给订阅者，触发响应的回调函数;
+* 所谓的订阅者，就像我们在日常生活中，订阅报纸一样。我们订阅报纸的时候，通常都得需要在报社或者一些中介机构进行注册。当有新版的报纸发刊的时候，邮递员就需要向订阅该报纸的人，依次发放报纸
+* 在initState时就会对data里面的数据做初始化数据劫持
+* 实现一个监听器Observer，用来劫持并监听所有属性，如果有变动的，就通知订阅者。
+* 实现一个订阅者Watcher，可以收到属性的变化通知并执行相应的函数，从而更新视图。
+* 实现一个订阅器Dep，收集所有的订阅者。
+* 实现一个解析器Compile，可以扫描和解析每个节点的相关指令，并根据初始化模板数据以及初始化相应的
+* [vue实现原理](https://blog.csdn.net/weixin_37861326/article/details/80854763)
+* vue3.0会使用proxy代替defineProperty ,优点不需要深度遍历监听,数组变化也能监听到
 
+## 生命周期
+* initLifecycle/Event，往vm上挂载各种属性
+* beforeCreated: 实例刚创建
+* initInjection/initState: 初始化注入和 data 响应性
+* created: 创建完成，属性已经绑定， 但还未生成真实dom
+* 进行元素的挂载： $el / vm.$mount()
+* 是否有template: 解析成render function
+* beforeMount: 模板编译/挂载之前
+* 执行render function，生成真实的dom，并替换到dom tree中
+* mounted: 组件已挂载
+* update: 执行diff算法，比对改变是否需要触发UI更新
+* actived / deactivated(keep-alive): 不销毁，缓存，组件激活与失活 
+* beforeDestroy: 销毁开始
+* remove(): 删除节点
+* watcher.teardown(): 清空依赖
+* vm.$off(): 解绑监听
+* destroyed: 完成后触发钩子
