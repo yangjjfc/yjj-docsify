@@ -2,7 +2,7 @@
  * @Author: yangjj
  * @Date: 2019-08-13 09:01:16
  * @LastEditors: yangjj
- * @LastEditTime: 2019-08-13 19:04:31
+ * @LastEditTime: 2019-08-15 09:02:02
  * @Description: file content
  -->
 ## 自我介绍
@@ -53,6 +53,12 @@
  * 多路复用，降低多个请求的开销
  * 客户端与服务端只需要建立一个TCP链接，他能保持持久化，以便复用
 
+
+
 ## js类型
 
 * js类型(7种): string,number,boolean,null,undefine,object,symbol
+* typeof能区分的五种基本类型：string、boolean、number、undefined、symbol和函数function
+* typeof只能区分值类型，对引用类型无能为力，只能区分函数function
+* instanceof：用于判断引用类型属于哪个构造函数的方法
+* 判断一个变量是否为数组 Object.prototype.toString.call(arr) === "[object Array]" arr instanceOf Array
