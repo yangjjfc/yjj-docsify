@@ -62,3 +62,27 @@
 * watcher.teardown(): 清空依赖
 * vm.$off(): 解绑监听
 * destroyed: 完成后触发钩子
+
+
+## 虚拟DOM
+*  浏览器渲染引擎工作流程都差不多，大致分为5步，创建DOM树——创建StyleRules——创建Render树——布局Layout——绘制Painting
+* 普通的DOM操作,比如要更新10次,更新一次就要执行上面5个操作,当第一次更新完后,马上第二次又得重新计算更新,很消耗性能
+* vdom,就可以把dom转换成js对象,然后10次更新,就操作10次js,js的计算性能很高,等10次更新完后,就是执行diff算法,最后将计算的结果一次性渲染到页面上
+*  diff算法,深度优先遍历，记录差异
+* 节点类型变了`REPLACE`,直接将旧节点卸载并装载新节点
+* 节点类型一样，仅仅属性或属性值变了`PROPS`,此时不会触发节点卸载和装载，而是节点更新
+* 文本变了`TEXT`,替换文本
+* 移动／增加／删除 子节点`REORDER`,一般遍历就是从左到右依次对比,不同就卸载,然后装载
+* 为了执行效率,一般需要加个`key`属性,直接找到具体位置进行操作
+* 最后映射成真实DOM
+* 我们会有两个虚拟DOM(js对象，new/old进行比较diff)，用户交互我们操作数据变化new虚拟DOM，old虚拟DOM会映射成实际DOM(js对象生成的DOM文档)通过DOM fragment操作给浏览器渲染。当修改new虚拟DOM，会把newDOM和oldDOM通过diff算法比较，得出diff结果数据表(用4种变换情况表示)。再把diff结果表通过DOM fragment更新到浏览器DOM中。
+* vdom 的真正意义是为了实现跨平台，服务端渲染，以及提供一个性能还算不错 Dom 更新策略。
+* [vue核心之虚拟DOM(vdom)](https://www.jianshu.com/p/af0b398602bc)
+
+## watch和computed区别
+* watch:主要是通过一个监听一个属性变化,在数据变化时执行异步或开销较大的操作时,去使用
+* computed:依赖的属性发生变化,就会触发更新,一般就用于视图渲染
+* computed是计算一个新的属性，并将该属性挂载到vm（Vue实例）上，而watch是监听已经存在且已挂载到vm上的数据，所以用watch同样可以监听computed计算属性的变化（其它还有data、props）
+* computed本质是一个惰性求值的观察者，具有缓存性，只有当依赖变化后，第一次访问 computed 属性，才会计算新的值，而watch则是当数据发生变化便会调用执行函数
+* 从使用场景上说，computed适用一个数据被多个数据影响，而watch适用一个数据影响多个数据；
+* [浅谈Vue中计算属性computed的实现原理](https://segmentfault.com/a/1190000016368913)

@@ -56,3 +56,7 @@
 ## js类型
 
 * js类型(7种): string,number,boolean,null,undefine,object,symbol
+
+
+## 深拷贝
+[Javascript之深拷贝](https://zhuanlan.zhihu.com/p/23251162)
