@@ -35,6 +35,7 @@ img {//解决postcss-viewport-units带来的副作用
 </script>
 ```
 
-[如何在Vue项目中使用vw实现移动端适配](https://www.jianshu.com/p/1f1b23f8348f)
-[使用Flexible实现手淘H5页面的终端适配rem自适应布局-移动端自适应必备](https://blog.csdn.net/qq_16664643/article/details/52267562)
-[再聊移动端页面的适配](https://blog.csdn.net/qq_21729177/article/details/79466951)
+* [如何在Vue项目中使用vw实现移动端适配](https://www.jianshu.com/p/1f1b23f8348f)
+* [使用Flexible实现手淘H5页面的终端适配rem自适应布局-移动端自适应必备](https://blog.csdn.net/qq_16664643/article/details/52267562)
+* [再聊移动端页面的适配](https://blog.csdn.net/qq_21729177/article/details/79466951)
+* [7种方法解决移动端Retina屏幕1px边框问题](https://blog.csdn.net/web_youth/article/details/74547518)
