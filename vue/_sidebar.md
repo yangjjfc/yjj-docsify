@@ -6,4 +6,5 @@
  * @Description: file content
  -->
 * [深入解析](vue/doc/analysis)
-* [移动端]((vue/doc/mobile)
+* [移动端](vue/doc/mobile)
+* [element](vue/doc/element)

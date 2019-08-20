@@ -106,3 +106,6 @@ output: {
     libraryTarget: 'commonjs2'// 入口起点的返回值将分配给 module.exports 对象
   }
 ```
+
+
+## 自动注册组件
