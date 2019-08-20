@@ -2,12 +2,13 @@
  * @Author: yangjj
  * @Date: 2019-08-13 09:02:12
  * @LastEditors: yangjj
- * @LastEditTime: 2019-08-13 13:51:52
+ * @LastEditTime: 2019-08-19 14:29:20
  * @Description: file content
  -->
 ## 事件机制
 * js是一个单线程执行,它是基于事件循环的
-* 其中事件分为2部分,宏任务(`macroTask`)和微任务(`microTask`)
+* 其中事件分为2部分,同步任务和异步任务
+* 异步任务又分为宏任务(`macroTask`)和微任务(`microTask`),微任务优先级高于宏任务
 * 所有的同步任务都在主线程上执行,形成一个执行栈
 * 主线程之外,还有一个任务队列,只要有异步任务有了运行结果就会在任务队列中放置一个事件
 * 一旦执行栈所有的同步任务完成,系统就会读取任务队列,看看有哪些事件,哪些对应的异步任务,于是结束等待状态,进入执行栈,开始执行
@@ -19,7 +20,6 @@
 * microTask: `MutationObsever、 Promise.then、process.nextTick` 
 * [Javascript事件循环机制以及渲染引擎何时渲染UI](https://segmentfault.com/a/1190000013212944)
 
-
 ## nextTick解析
 
 * 执行`src/core/util/next-tick.js`文件,暴露2个函数`nextTick`和`withMacroTask`
@@ -29,10 +29,12 @@
 * nextTick函数执行时,会把cb函数压入到一个callbacks 数组中,保证在同一个 tick 内多次执行 nextTick，不会开启多个异步任务,而把这些异步任务都压成一个同步任务，在下一个 tick 执行完毕。
 * 最后一次性地根据 `useMacroTask` 条件执行 `macroTimerFunc` 或者是 `microTimerFunc，而它们都会在下一个` tick 执行 `flushCallbacks，flushCallbacks` 的逻辑非常简单，对 callbacks 遍历，然后执行相应的回调函数。
 * `nextTick` 如果不传cb,也可以支持Promise的方法,在.then中执行函数
-* `withMacroTask` 它是对函数做一层包装，确保函数执行过程中对数据任意的修改，触发变化执行 nextTick 的时候强制走 macroTimerFunc。比如对于一些 DOM 交互事件，如 v-on 绑定的事件回调函数的处理，会强制走 macro task。
+* `withMacroTask` 它是对函数做一层包装，确保函数执行过程中对数据任意的修改，触发变化执行 nextTick 的时候强制走 macroTimerFunc。比如对于一些 DOM 交互事件，如 v-on 绑定的事件回调函数的处理，会强制走 macro task
+* 执行完`microtask`后会触发UI渲染,然而执行`macrotask`后会触发`microtask`,会触发多次渲染
 * [由nextTick原理引出的js执行机制](https://www.cnblogs.com/zjjDaily/p/10478634.html)
 * [[vue源码][nextTick]原理以及源码解析](https://juejin.im/post/5d519abce51d453b753a1a9d?utm_source=gold_browser_extension)
 * [Vue 的 NextTick](https://510team.github.io/vue/nextTick.html#%E5%88%9D%E7%9C%8B-event-loop)
+* [Vue异步更新 - nextTick为什么要microtask优先](https://juejin.im/post/5d57994ef265da03bd051969?utm_source=gold_browser_extension)
 
 ## 响应式原理
 * 双向绑定原理是利用数据劫持,结合发布者-订阅者模式的方式,通过`Object.defineProperty`来劫持各个属性setter、getter,在数据发生变动时发布消息给订阅者，触发响应的回调函数;

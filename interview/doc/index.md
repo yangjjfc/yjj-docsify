@@ -2,7 +2,7 @@
  * @Author: yangjj
  * @Date: 2019-08-13 09:01:16
  * @LastEditors: yangjj
- * @LastEditTime: 2019-08-15 09:02:02
+ * @LastEditTime: 2019-08-20 15:58:13
  * @Description: file content
  -->
 ## 自我介绍
@@ -66,3 +66,22 @@
 ## 深拷贝
 [Javascript之深拷贝](https://zhuanlan.zhihu.com/p/23251162)
 
+
+## 浏览器输入URL回车
+* URL解析,判断是`http,https,ftp`等
+* DNS域名解析
+ - 先到各种缓存信息中查找
+ - DNS服务器查找
+* 建立3次握手`TCP`
+ - 客户端向服务器发送syn包,请求连接
+ - 服务器接收到syn包后,会返回syc+ack包,确认信息
+ - 客户端收到返回的包后,返回ackb包,建立握手
+* 发送HTTP请求
+* 服务器处理请求,返回相应的请求内容
+* 浏览器解析返回的数据
+ - 解析html,生产dom树
+ - 解析css,生产css规则树
+* 浏览器布局渲染
+
+## Array处理
+[关于Array的特别处理](https://juejin.im/post/5d579cd36fb9a06aea6190db)
