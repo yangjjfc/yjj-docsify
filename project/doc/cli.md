@@ -1,3 +1,10 @@
+<!--
+ * @Author: yangjj
+ * @Date: 2019-07-26 16:28:29
+ * @LastEditors: yangjj
+ * @LastEditTime: 2019-08-21 15:30:41
+ * @Description: file content
+ -->
 ## 前端cli
  * 利用sheel脚本执行命令,开始先输入项目名称
  * 然后选择需要安装的版本,例如`vue-system`管理系统,`vue-mobile`移动端
@@ -11,3 +18,6 @@
 * 因为使用的是sheel,所以执行命令时windows操作系统需要在git bash下执行
 * 在需要创建的文件目录下,执行ycloud,然后按提示输入就行
 * vue create app的时候需要去自行选择,eslint,vue-router,vuex,scss(node-scss)这种必须要选择
+
+## 参考
+[手摸手教你撸一个脚手架](https://mp.weixin.qq.com/s/6PAVCJrtyiqbXlRXSH0Qsw)
