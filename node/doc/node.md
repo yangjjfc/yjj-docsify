@@ -2,7 +2,7 @@
  * @Author: yangjj
  * @Date: 2019-08-13 19:16:36
  * @LastEditors: yangjj
- * @LastEditTime: 2019-08-13 19:22:34
+ * @LastEditTime: 2019-08-21 14:03:25
  * @Description: file content
  -->
 ## process
@@ -24,7 +24,6 @@ E:\w>node p1.js --a -b c
 'c' ]
 ```
 </details>
-
 
 ## chokidar
 * 有文件变化时只对该文件进行操作
@@ -53,5 +52,14 @@ function exec (cmd) {
 }
 
 ```
-
 </details>
+
+## api基础
+
+```js
+require('child_process').exec //node 子进程
+exec('npm info QQ-Music-API version',callback())
+path.join(__dirname,  'public') //拼接路径
+__dirname //当前项目目录的全路径
+porcess.cwd //运行命令时所在的目录
+```
