@@ -19,7 +19,7 @@
 * `koa-body`可代替`koa-bodyparser`和`koa-multer`
  - [koa2 使用 koa-body 代替 koa-bodyparser 和 koa-multer](http://www.ptbird.cn/koa-body.html)
 
-* `koa-static` 处理静态文件
+* `koa-static` 处理静态文件,使文件可被外部访问
  - [koa2使用koa-static静态文件](https://www.jianshu.com/p/188b0835b2e0)
 
 * `koa2-cors` 跨域请求实现
@@ -27,3 +27,22 @@
 
 * `koa-router` 请求处理
  - [koa-router使用指南](https://blog.csdn.net/luchuanqi67/article/details/81475077)
+
+* `koa-views` 模板中间件需要和模板引擎结合`ejs`
+ - [中间件koa-views](https://www.jianshu.com/p/33e55974a32f)
+
+* `ejs`   JavaScript 模板引擎
+ - [ejs](https://ejs.bootcss.com/)
+
+* `koa-logger` 日志
+ - [](https://mobilesite.github.io/2017/04/29/develop-backend-service-with-koa2/)
+* `koa-json` 美观的输出JSON 
+* `koa-onerror` 错误处理中间件
+* `cross-env` 跨平台配置环境变量的模块
+* `debug` 理解为一个封装过的console.log()
+* `nodemon` 修改文件可以自动重启服务
+* `log4js` 本地输出log
+* `debug` 理解为一个封装过的console.log()
+* `debug` 理解为一个封装过的console.log()
+* `debug` 理解为一个封装过的console.log()
+* `debug` 理解为一个封装过的console.log()
