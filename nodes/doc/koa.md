@@ -42,7 +42,14 @@
 * `debug` 理解为一个封装过的console.log()
 * `nodemon` 修改文件可以自动重启服务
 * `log4js` 本地输出log
+
+
+
+* `SuperAgent` [客户端请求代理模块](https://www.jianshu.com/p/1432e0f29abd)
+* `cheerio` [是jquery核心功能的一个快速灵活而又简洁的实现，主要是为了用在服务器端需要对DOM进行操作的地方](https://www.jianshu.com/p/629a81b4e013)
+* `puppeteer` [打开网页并截图](https://www.jianshu.com/p/56babda610f9)
 * `debug` 理解为一个封装过的console.log()
-* `debug` 理解为一个封装过的console.log()
-* `debug` 理解为一个封装过的console.log()
-* `debug` 理解为一个封装过的console.log()
+
+## 生成koa项目
+* 安装`npm install -g koa-generator`
+* 执行`koa2 test_koa`
