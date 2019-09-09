@@ -49,6 +49,7 @@
 * `cheerio` [是jquery核心功能的一个快速灵活而又简洁的实现，主要是为了用在服务器端需要对DOM进行操作的地方](https://www.jianshu.com/p/629a81b4e013)
 * `puppeteer` [打开网页并截图](https://www.jianshu.com/p/56babda610f9)
 * `debug` 理解为一个封装过的console.log()
+* `Socket.io` 实时推送,类似webSocket
 
 ## 生成koa项目
 * 安装`npm install -g koa-generator`
