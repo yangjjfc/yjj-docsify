@@ -6,7 +6,9 @@
 * babel-plugin-syntax-dynamic-import 动态import webpack版本4.20.2及以上不需要这个插件了
 * babel-plugin-transform-runtime  解决兼容问题,转义es6的新api
 * [babel之配置文件.babelrc入门详解](https://juejin.im/post/5a79adeef265da4e93116430)
-* [前端工程师需要了解的 Babel 知识](前端工程师需要了解的 Babel 知识)
+* [babel学习系列4-polyfill和transform-runtime的差别](https://juejin.im/post/5c8134bd5188251ba73eed76)
+* [关于 Babel 你必须知道的](https://juejin.im/post/5d2b1df66fb9a07ef161b208)
+* [前端工程师需要了解的 Babel 知识](https://juejin.im/post/5d7e4cb46fb9a06acf2b8a46?utm_source=gold_browser_extension)
 
 <details>
 <summary>.babelrc配置</summary>
