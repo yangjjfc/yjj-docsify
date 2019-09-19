@@ -4,7 +4,7 @@
 * [前端微服务化解决方案](https://alili.tech/archive/ffb0c5ab/)
 * [Single-SPA微前端框架的使用Demo汇总](https://alili.tech/archive/22975f44/)
 * [蚂蚁金服前端框架和工程化实践](https://mp.weixin.qq.com/s/6-yjR_CsHaWUI8YqLK25rA)
-
+* [每日优鲜供应链前端团队微前端改造](https://juejin.im/post/5d7f702ce51d4561f777e258?utm_source=gold_browser_extension)
 
 ## 问题
 * 是先各自项目先打包然后在给外面使用,还是在外面直接统一打包
