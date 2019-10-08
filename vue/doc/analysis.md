@@ -8,14 +8,14 @@
 ## 事件机制
 * js是一个单线程执行,它是基于事件循环的
 * 其中事件分为2部分,同步任务和异步任务
-* 异步任务又分为宏任务(`macroTask`)和微任务(`microTask`),微任务优先级高于宏任务
+* 任务又分为宏任务(`macroTask`)和微任务(`microTask`),微任务优先级高于宏任务
 * 所有的同步任务都在主线程上执行,形成一个执行栈
 * 主线程之外,还有一个任务队列,只要有异步任务有了运行结果就会在任务队列中放置一个事件
 * 一旦执行栈所有的同步任务完成,系统就会读取任务队列,看看有哪些事件,哪些对应的异步任务,于是结束等待状态,进入执行栈,开始执行
 * 期间又产生微任务,就会放入执行栈末尾,立即等待执行,产生宏任务的话,下一轮事件循环执行(猜的~),
 * 当任务全部执行完后,会进行UI渲染
 * 主线程不断重复上面的步骤
-
+* 主线程任务===>macroTask===>microTask===>ui 渲染 ===> macroTask===>microTask===>ui 渲染
 * macroTask: `setTimeout、MessageChannel、postMessage、setImmediate`
 * microTask: `MutationObsever、 Promise.then、process.nextTick` 
 * [Javascript事件循环机制以及渲染引擎何时渲染UI](https://segmentfault.com/a/1190000013212944)
