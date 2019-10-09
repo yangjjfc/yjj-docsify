@@ -48,10 +48,30 @@
 
 
 
- ## http
+## http
  http2 优点
  * 多路复用，降低多个请求的开销
  * 客户端与服务端只需要建立一个TCP链接，他能保持持久化，以便复用
+
+##缓存
+ * 前端缓存分为强缓存和协商缓存
+ * `Cache-Control/Expires`,浏览器会判断缓存是否过期,未过期就直接使用强缓存，Cache-Control的 max-age 优先级高于 Expires
+ * 当缓存已经过期时，使用协商缓存
+ * 唯一标识方案:  Etag(response 携带) & If-None-Match(request携带，上一次返回的 Etag): 服务器判断资源是否被修改
+ * Etag是一串hash值,字节长度+修改时间
+ * 最后一次修改时间: Last-Modified(response) & If-Modified-Since (request，上一次返回的Last-Modified)
+ * 判断是否一直,一直就返回304通知浏览器使用缓存
+ * 不一致则返回新资源
+ * Etag 的优先级高于 Last-Modified
+ * Last-Modified 缺点: 
+   - 周期性修改，但内容未变时，会导致缓存失效
+   - 最小粒度只到 s， s 以内的改动无法检测到
+
+## 3次握手
+* 客户端发送 syn(同步序列编号) 请求，进入 syn_send 状态，等待确认
+* 服务端接收并确认 syn 包后发送 syn+ack 包，进入 syn_recv 状态
+* 客户端接收 syn+ack 包后，发送 ack 包，双方进入 established 状态
+
 
 
 
@@ -85,3 +105,4 @@
 
 ## Array处理
 [关于Array的特别处理](https://juejin.im/post/5d579cd36fb9a06aea6190db)
+
