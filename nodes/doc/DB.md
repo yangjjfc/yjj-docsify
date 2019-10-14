@@ -18,4 +18,44 @@
   - [文档地址](https://docs.mongodb.com)
   - [手册](http://www.shouce.ren/api/view/a/6191)
 
+* D:\Program Files\mongodb\bin>mongod -dbpath "D:\Program Files\mongodb\data\db" 启动mongodb服务
+```js
+show dbs; //显示全部数据库
+db.dropDatabase() //删除数据库
+db.zh_tops.drop() //删除表
+use test //切换数据库,没有则新增数据库test
+db.test.insert({name:'yangjj'}) //插入一条数据
 
+db.createCollection('test'); //创建 集合
+show collections //查看已有集合
+
+//插入
+db.test.insert({title: 'MongoDB 教程', 
+    description: 'MongoDB 是一个 Nosql 数据库',
+    by: '菜鸟教程',
+    url: 'http://www.runoob.com',
+    tags: ['mongodb', 'database', 'NoSQL'],
+    likes: 100
+})
+//查看已插入文档
+db.test.find();
+db.test.find().pretty()
+//还有一个 findOne() 方法
+
+//更新
+db.test.update({'title':'MongoDB 教程'},{$set:{'title':'MongoDB'}});
+//如果你要修改多条相同的文档,则需要设置 multi 参数为 true
+db.test.update({'title':'MongoDB 教程'},{$set:{'title':'MongoDB'}},{multi:true})
+
+
+//删除
+db.test.remove({'title':'MongoDB 教程'})
+//如果你想删除所有数据
+db.test.remove({})
+
+
+db.test.getIndexes()
+
+db.test.totalIndexSize()
+
+```
