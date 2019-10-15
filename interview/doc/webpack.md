@@ -171,3 +171,29 @@ module.exports = webpackContext;
 webpackContext.id = "./src/components/global sync recursive index.vue$";
 ```
 </details>
+
+
+## externals 深入理解
+* externals的配置有以下几种：array , object ,reg
+* ibraryTarget配置如何暴露 library。如果不设置library,那这个library就不暴露。就相当于一个自执行函数
+* externals是决定的是以哪种模式去加载所引入的额外的包
+* libraryTarget决定了你的library运行在哪个环境，哪个环境也就决定了你哪种模式去加载所引入的额外的包。也就是说，externals应该和libraryTarget保持一致。library运行在浏览器中的，你设置externals的模式为commonjs，那代码肯定就运行不了了。
+* 如果是应用程序开发，一般是运行在浏览器环境libraryTarget可以不设置，externals默认的模式是global，也就是以全局变量的模式加载所引入外部的库。
+
+
+* [webpack externals 深入理解](https://segmentfault.com/a/1190000012113011)
+
+<details>
+<summary>解析函数</summary>
+
+```js
+externals: {
+  "lodash": {
+        commonjs: "lodash",//如果我们的库运行在Node.js环境中，import _ from 'lodash'等价于const _ = require('lodash')
+        commonjs2: "lodash",//同上
+        amd: "lodash",//如果我们的库使用require.js等加载,等价于 define(["lodash"], factory);
+        root: "_"//如果我们的库在浏览器中使用，需要提供一个全局的变量‘_’，等价于 var _ = (window._) or (_);
+  }
+}
+```
+</details>
