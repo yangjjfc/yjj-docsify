@@ -11,6 +11,8 @@
 
 [GitHub](https://github.com/yangjjfc/yjj-docsify)
 [vue](/vue/)
+[js](/js/)
+[wx](/wx/)
 [node](/nodes/)
 [云医购](/dian/)
 [管理](/project/)
